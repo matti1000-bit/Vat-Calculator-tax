@@ -1,0 +1,144 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Global VAT/Sales Tax Calculator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+    .container {
+      max-width: 800px;
+      margin: auto;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+    }
+    label, select, input {
+      display: block;
+      margin: 10px 0;
+      width: 100%;
+    }
+    .result, .meaning {
+      margin-top: 20px;
+      padding: 10px;
+      background: #e0f7fa;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Global VAT/Sales Tax Calculator</h1>
+    <label for="country">Select Country:</label>
+    <select id="country" onchange="showMeaning()">
+      <option value="France">France (20%)</option>
+      <option value="Germany">Germany (19%)</option>
+      <option value="UK">United Kingdom (20%)</option>
+      <option value="India">India (18%)</option>
+      <option value="China">China (13%)</option>
+      <option value="Japan">Japan (10%)</option>
+      <option value="South Africa">South Africa (15%)</option>
+      <option value="Brazil">Brazil (18%)</option>
+      <option value="Canada">Canada (5%)</option>
+      <option value="Australia">Australia (10%)</option>
+      <option value="New Zealand">New Zealand (15%)</option>
+      <option value="Saudi Arabia">Saudi Arabia (15%)</option>
+      <option value="UAE">United Arab Emirates (5%)</option>
+      <option value="Pakistan">Pakistan (18%)</option>
+      <option value="Russia">Russia (20%)</option>
+      <option value="USA">USA (7%)</option>
+      <option value="Mexico">Mexico (16%)</option>
+      <option value="Argentina">Argentina (21%)</option>
+      <option value="South Korea">South Korea (10%)</option>
+      <option value="Indonesia">Indonesia (11%)</option>
+    </select>
+
+    <label for="amount">Enter Amount (Excluding VAT):</label>
+    <input type="number" id="amount" placeholder="e.g. 100.00">
+
+    <button onclick="calculate()">Calculate</button>
+
+    <div class="result" id="output"></div>
+    <div class="meaning" id="meaning"></div>
+  </div>
+
+  <script>
+    const taxRates = {
+      "France": 20,
+      "Germany": 19,
+      "UK": 20,
+      "India": 18,
+      "China": 13,
+      "Japan": 10,
+      "South Africa": 15,
+      "Brazil": 18,
+      "Canada": 5,
+      "Australia": 10,
+      "New Zealand": 15,
+      "Saudi Arabia": 15,
+      "UAE": 5,
+      "Pakistan": 18,
+      "Russia": 20,
+      "USA": 7,
+      "Mexico": 16,
+      "Argentina": 21,
+      "South Korea": 10,
+      "Indonesia": 11
+    };
+
+    const taxMeanings = {
+      "France": "TVA (Taxe sur la Valeur Ajoutée) is the French VAT applied at 20%.",
+      "Germany": "VAT (Mehrwertsteuer) is applied at a standard rate of 19%.",
+      "UK": "VAT is applied at a standard rate of 20% on most goods and services.",
+      "India": "GST (Goods and Services Tax) is a unified tax applied at 18%.",
+      "China": "VAT is applied at 13% on most goods and services.",
+      "Japan": "Consumption tax is applied at 10%.",
+      "South Africa": "VAT is applied at a standard rate of 15%.",
+      "Brazil": "VAT-like taxes are applied at around 18% depending on the state.",
+      "Canada": "GST is applied at 5%, with additional provincial taxes.",
+      "Australia": "GST is applied at a standard rate of 10%.",
+      "New Zealand": "GST is applied at a standard rate of 15%.",
+      "Saudi Arabia": "VAT is applied at a standard rate of 15%.",
+      "UAE": "VAT is applied at a standard rate of 5%.",
+      "Pakistan": "Sales tax is applied at a standard rate of 18%.",
+      "Russia": "VAT is applied at a standard rate of 20%.",
+      "USA": "Sales tax is applied at state level, average around 7%.",
+      "Mexico": "VAT is applied at a standard rate of 16%.",
+      "Argentina": "VAT is applied at a standard rate of 21%.",
+      "South Korea": "VAT is applied at a standard rate of 10%.",
+      "Indonesia": "VAT is applied at a standard rate of 11%."
+    };
+
+    function calculate() {
+      const country = document.getElementById("country").value;
+      const amount = parseFloat(document.getElementById("amount").value);
+      const rate = taxRates[country];
+
+      if (isNaN(amount)) {
+        document.getElementById("output").innerHTML = "Please enter a valid amount.";
+        return;
+      }
+
+      const vatAmount = amount * rate / 100;
+      const includingVAT = amount + vatAmount;
+
+      document.getElementById("output").innerHTML = `
+        <strong>Results for ${country}:</strong><br>
+        VAT Rate: ${rate}%<br>
+        VAT Amount: ${vatAmount.toFixed(2)}<br>
+        Including VAT: ${includingVAT.toFixed(2)}
+      `;
+    }
+
+    function showMeaning() {
+      const country = document.getElementById("country").value;
+      document.getElementById("meaning").innerHTML = `<strong>${country} Tax System:</strong><br>${taxMeanings[country]}`;
+    }
+
+    window.onload = showMeaning;
+  </script>
+</body>
+</html>
